@@ -4,7 +4,6 @@ package javaim.client.lib;
 import javaim.client.ui.View;
 import javaim.client.ui.ConversationPane;
 import javaim.client.ui.MessageSentListener;
-import javaim.client.lib.UserListener;
 
 import java.io.*;
 import java.net.Socket;
@@ -19,7 +18,6 @@ public class Client {
     private String password;
     private Socket socket;
     private ObjectOutputStream outputStream;
-    private Thread userListener;
     private Thread serverListener;
 
     public Client(View view, String username, String password)
@@ -31,7 +29,6 @@ public class Client {
 
         this.outputStream = new ObjectOutputStream(socket.getOutputStream());
 
-        userListener = new Thread(new UserListener(this, socket));
         serverListener = new Thread(new ServerListener(this.view, socket));
 
         this.view.setMessageSentListener(new MessageSentListener() {
@@ -49,7 +46,6 @@ public class Client {
     public void run() {
         System.out.println("Client");
 
-        userListener.start();
         serverListener.start();
 
         try {
