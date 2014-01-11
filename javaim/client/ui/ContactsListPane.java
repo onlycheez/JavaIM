@@ -3,7 +3,6 @@ package javaim.client.ui;
 
 import javaim.client.ui.View;
 import javaim.client.ui.ContactsList;
-import javaim.client.ui.ConversationWindowCreation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -32,6 +31,10 @@ public class ContactsListPane extends JPanel {
         contactsList = new ContactsList(view);
 
         add(contactsList, BorderLayout.CENTER);
+    }
+
+    public void openConversationWindow(String contact) {
+        contactsList.openConversationWindow(contact);
     }
 
     public void setMessageSentListener(ActionListener listener) {

@@ -13,8 +13,10 @@ import javax.swing.SwingUtilities;
 public class ContactsList extends JList<String> {
 
     private ActionListener messageSentListener;
+    private View view;
 
     public ContactsList(final View view) {
+        this.view = view;
         final String[] contacts = new String[] { "Alice", "Bob", "Carl", "Dave" };
         setListData(contacts);
 
@@ -32,7 +34,8 @@ public class ContactsList extends JList<String> {
                     private ConversationWindow conversationWindow;
 
                     public void run() {
-                        conversationWindow = new ConversationWindow(contact);
+                        conversationWindow = new ConversationWindow(view,
+                                contact);
                         if (messageSentListener != null) {
                             conversationWindow.setMessageSentListener(
                                     messageSentListener);
@@ -41,6 +44,21 @@ public class ContactsList extends JList<String> {
                                 conversationWindow);
                     }
                 });
+            }
+        });
+    }
+
+    public void openConversationWindow(final String contact) {
+        SwingUtilities.invokeLater(new Runnable() {
+            private ConversationWindow conversationWindow;
+
+            public void run() {
+                conversationWindow = new ConversationWindow(view, contact);
+                if (messageSentListener != null) {
+                    conversationWindow.setMessageSentListener(
+                            messageSentListener);
+                }
+                view.onConversationWindowCreate(contact, conversationWindow);
             }
         });
     }

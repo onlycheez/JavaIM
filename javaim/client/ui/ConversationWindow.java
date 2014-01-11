@@ -7,6 +7,8 @@ import javaim.client.ui.View;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 public class ConversationWindow extends JFrame {
@@ -16,9 +18,11 @@ public class ConversationWindow extends JFrame {
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit()
             .getScreenSize();
     private ConversationPane contentPane;
+    private View view;
     private String contact;
 
-    public ConversationWindow(String contact) {
+    public ConversationWindow(final View view, final String contact) {
+        this.view = view;
         this.contact = contact;
         setTitle(WINDOW_TITLE_PREFIX + contact);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -28,6 +32,12 @@ public class ConversationWindow extends JFrame {
 
         contentPane = new ConversationPane(this, this.contact);
         setContentPane(contentPane);
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent event) {
+                view.removeConversationWindow(contact);
+            }
+        });
 
         pack();
         setVisible(true);

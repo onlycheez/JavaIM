@@ -17,7 +17,16 @@ public class View {
     }
 
     public void showMessage(String from, String message) {
-        conversationWindows.get(from).showMessage(message);
+        ConversationWindow conversationWindow = conversationWindows.get(from);
+        if (conversationWindow == null) {
+            contactsListWindow.openConversationWindow(from);
+            while ((conversationWindow = conversationWindows.get(from)) == null) {
+                // TODO: This isn't very nice solution.
+                ;
+            }
+        }
+
+        conversationWindow.showMessage(message);
     }
 
     public void setMessageSentListener(ActionListener listener) {
@@ -27,5 +36,9 @@ public class View {
     public void onConversationWindowCreate(String contact,
             ConversationWindow conversationWindow) {
         conversationWindows.put(contact, conversationWindow);
+    }
+
+    public void removeConversationWindow(String contact) {
+        conversationWindows.remove(contact);
     }
 }

@@ -31,6 +31,10 @@ public class ContactsListWindow extends JFrame {
         setVisible(true);
     }
 
+    public void openConversationWindow(String contact) {
+        contentPane.openConversationWindow(contact);
+    }
+
     public void setMessageSentListener(ActionListener listener) {
         contentPane.setMessageSentListener(listener);
     }
