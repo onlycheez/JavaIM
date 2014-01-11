@@ -30,6 +30,10 @@ public class View {
         conversationWindow.showMessage(message);
     }
 
+    public void updateContactsList(String[] contacts) {
+        contactsListWindow.updateContactList(contacts);
+    }
+
     public void setMessageSentListener(MessageSentListener listener) {
         contactsListWindow.setMessageSentListener(listener);
     }

@@ -15,10 +15,11 @@ public class ContactsList extends JList<String> {
 
     private MessageSentListener messageSentListener;
     private View view;
+    private String[] contacts;
 
     public ContactsList(final View view) {
         this.view = view;
-        final String[] contacts = new String[] { "Alice", "Bob", "Carl", "Dave" };
+        contacts = new String[0];
         setListData(contacts);
 
         final JList<String> list = this;
@@ -47,6 +48,11 @@ public class ContactsList extends JList<String> {
                 });
             }
         });
+    }
+
+    public void setContacts(String[] contacts) {
+        this.contacts = contacts;
+        setListData(contacts);
     }
 
     public void openConversationWindow(final String contact) {

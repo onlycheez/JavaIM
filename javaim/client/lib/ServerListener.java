@@ -26,9 +26,18 @@ class ServerListener implements Runnable {
             String[] message;
 
             while ((message = (String[])inputStream.readObject()) != null) {
-                System.out.print("Received: \"" + message[3] + "\"");
-                System.out.println();
-                view.showMessage(message[1], message[3]);
+                switch (message[0])
+                {
+                    case "message":
+                        view.showMessage(message[1], message[3]);
+                        break;
+                    case "contactsList":
+                        view.updateContactsList(message);
+                        break;
+                    default:
+                        System.out.println("Unknown message received: " +
+                                message[0]);
+                }
             }
         } catch (ClassNotFoundException ex) {
             System.out.println("Class not found.");

@@ -33,6 +33,10 @@ public class ContactsListWindow extends JFrame {
         setVisible(true);
     }
 
+    public void updateContactList(String[] contacts) {
+        contentPane.updateContactList(contacts);
+    }
+
     public void openConversationWindow(String contact) {
         contentPane.openConversationWindow(contact);
     }

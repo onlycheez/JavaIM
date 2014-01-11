@@ -31,12 +31,8 @@ class Worker implements Runnable {
 
     public void run() {
         try {
-            while (!isLogged) {
-                isLogged = login();
-            }
             System.out.println(username + " has logged in.");
-            runChat();
-            logout();
+            listenToClient();
         } catch (ClassNotFoundException ex) {
             System.out.println("Class not found.");
         } catch (EOFException ex) {
@@ -61,37 +57,35 @@ class Worker implements Runnable {
           public void run(){
               try {
                   outputStream.writeObject((Object)message);
-              } catch (IOException ex) {
-                  ;
-              }
+                } catch (IOException ex) {
+                    ;
+                }
             }
         }).start();
     }
 
-    private boolean login()
+    private void login(String contact, String password)
             throws ClassNotFoundException, EOFException, IOException {
-        String[] message = (String[])inputStream.readObject();
-
-        System.out.print("login: ");
-        for (String s : message) {
-            System.out.print(s + ", ");
-        }
-        System.out.println();
-
-        if (!message[0].equals("login")) {
-            return false;
-        }
-
-        username = message[1];
-
-        return true;
+        System.out.println(contact + " has logged in.");
+        username = contact;
+        isLogged = true;
     }
 
-    private void logout() {
-        ;
+    private void sendContactsList(String[] contacts) {
+        String[] message = new String[contacts.length + 1];
+        message[0] = "contactsList";
+        for (int i = 0; i < contacts.length; i++) {
+            message[i + 1] = contacts[i];
+        }
+
+        try {
+              outputStream.writeObject((Object)message);
+            } catch (IOException ex) {
+                ;
+            }
     }
 
-    private void runChat()
+    private void listenToClient()
             throws ClassNotFoundException, EOFException, IOException {
         String[] message;
 
@@ -104,8 +98,10 @@ class Worker implements Runnable {
 
             switch (message[0]) {
                 case "login":
-                    System.out.println("Multiple login attempt from " +
-                            message[1] + ".");
+                    login(message[1], message[2]);
+                    break;
+                case "contactsList":
+                    sendContactsList(server.getLoggedContacts());
                     break;
                 case "message":
                     server.passMessage(message[1], message[2], message[3]);

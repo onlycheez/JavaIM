@@ -34,6 +34,15 @@ public class ContactsListPane extends JPanel {
         add(contactsList, BorderLayout.CENTER);
     }
 
+    public void updateContactList(String[] contacts) {
+        String[] data = new String[contacts.length - 1];
+        for (int i = 0; i < contacts.length - 1; i++) {
+            data[i] = contacts[i + 1];
+        }
+
+        contactsList.setContacts(data);
+    }
+
     public void openConversationWindow(String contact) {
         contactsList.openConversationWindow(contact);
     }

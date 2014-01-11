@@ -56,10 +56,15 @@ public class Client {
             boolean isLogged = false;
             while (!isLogged) {
                 isLogged = login();
-          }
+            }
+            askForContactsList();
         } catch (IOException ex) {
             System.out.println("Failed to login. IO error.");
         }
+    }
+
+    private void askForContactsList() throws IOException {
+        outputStream.writeObject(new String[] { "contactsList" });
     }
 
     private boolean login() throws IOException {

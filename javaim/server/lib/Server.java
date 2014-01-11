@@ -65,4 +65,16 @@ public class Server {
             }
         }
     }
+
+    public String[] getLoggedContacts() {
+        ArrayList<String> contacts = new ArrayList<>();
+
+        for (Worker worker : workers) {
+            if (worker.getIsLogged()) {
+                contacts.add(worker.getUsername());
+            }
+        }
+
+        return contacts.toArray(new String[0]);
+    }
 }
