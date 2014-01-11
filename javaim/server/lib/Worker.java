@@ -38,6 +38,7 @@ class Worker implements Runnable {
         } catch (EOFException ex) {
             System.out.println(username + " has disconnected.");
             server.clientDisconnected(username);
+            server.broadcastLoggedUsersUpdate();
         } catch (IOException ex) {
             System.out.println("IOException");
         }
@@ -71,7 +72,7 @@ class Worker implements Runnable {
         isLogged = true;
     }
 
-    private void sendContactsList(String[] contacts) {
+    public void sendContactsList(String[] contacts) {
         String[] message = new String[contacts.length + 1];
         message[0] = "contactsList";
         for (int i = 0; i < contacts.length; i++) {
@@ -99,6 +100,7 @@ class Worker implements Runnable {
             switch (message[0]) {
                 case "login":
                     login(message[1], message[2]);
+                    server.broadcastLoggedUsersUpdate();
                     break;
                 case "contactsList":
                     sendContactsList(server.getLoggedContacts());

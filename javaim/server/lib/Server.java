@@ -56,6 +56,16 @@ public class Server {
         }
     }
 
+    synchronized public void broadcastLoggedUsersUpdate() {
+        String[] contacts = getLoggedContacts();
+
+        for (Worker worker : workers) {
+            if (worker.getIsLogged()) {
+                worker.sendContactsList(contacts);
+            }
+        }
+    }
+
     synchronized public void clientDisconnected(String username) {
         for (int i = 0; i < workers.size(); i++) {
             if (workers.get(i).getIsLogged() &&
