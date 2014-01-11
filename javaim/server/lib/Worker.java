@@ -40,7 +40,8 @@ class Worker implements Runnable {
     } catch (ClassNotFoundException ex) {
       System.out.println("Class not found.");
     } catch (EOFException ex) {
-      System.out.println("Client has disconnected.");
+      System.out.println(username + " has disconnected.");
+      server.clientDisconnected(username);
     } catch (IOException ex) {
       System.out.println("IOException");
     }

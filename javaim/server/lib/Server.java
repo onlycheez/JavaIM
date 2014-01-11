@@ -55,4 +55,14 @@ public class Server {
       System.out.println("Username " + to + " was not found.");
     }
   }
+
+    synchronized public void clientDisconnected(String username) {
+        for (int i = 0; i < workers.size(); i++) {
+            if (workers.get(i).getIsLogged() &&
+                    workers.get(i).getUsername().equals(username)) {
+                workers.remove(i);
+                break;
+            }
+        }
+    }
 }
