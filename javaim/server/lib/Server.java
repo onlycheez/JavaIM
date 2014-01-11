@@ -13,7 +13,7 @@ import java.io.*;
  */
 public class Server {
 
-  private final static int PORT = 4444;
+    private final static int PORT = 4444;
     private ServerSocket serverSocket = null;
     private ArrayList<Thread> clients = null;
     private ArrayList<Worker> workers = null;
@@ -40,6 +40,12 @@ public class Server {
         }
     }
 
+    /**
+     * Passes message to specified user.
+     * @param from Sender of message.
+     * @param to Receiver of message.
+     * @param message Text of message.
+     */
     public void passMessage(String from, String to, String message) {
         boolean found = false;
 
@@ -56,6 +62,9 @@ public class Server {
         }
     }
 
+    /**
+     * Sends actual list of logged users to all connected clients.
+     */
     synchronized public void broadcastLoggedUsersUpdate() {
         String[] contacts = getLoggedContacts();
 
@@ -66,16 +75,25 @@ public class Server {
         }
     }
 
+    /**
+     * Removes specified client from servers array.
+     * @param username User who will be removed.
+     */
     synchronized public void clientDisconnected(String username) {
         for (int i = 0; i < workers.size(); i++) {
             if (workers.get(i).getIsLogged() &&
                     workers.get(i).getUsername().equals(username)) {
                 workers.remove(i);
+                // TODO: clients should be updated too.
                 break;
             }
         }
     }
 
+    /**
+     * Returns all actually logged users.
+     * @return Array of logged users.
+     */
     public String[] getLoggedContacts() {
         ArrayList<String> contacts = new ArrayList<>();
 
