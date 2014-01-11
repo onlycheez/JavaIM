@@ -1,20 +1,21 @@
 
-package javaim.client.lib;
+package javaim.client.controller.lib;
 
-import javaim.client.lib.Protocol;
-import javaim.client.ui.View;
-import javaim.client.ui.ContactsListWindow;
+import javaim.client.controller.lib.Protocol;
+import javaim.client.view.View;
 
 import java.io.*;
 import java.net.Socket;
-import javax.swing.JTextArea;
 
-class ServerListener implements Runnable {
+/**
+ * Listens to server and performs actions on client. Takes care of showing
+ * received messages and updating contacts list.
+ */
+public class ServerListener implements Runnable {
 
-    private ContactsListWindow contactsListWindow;
+    private View view;
     private Socket socket;
     private ObjectInputStream inputStream;
-    private View view;
 
     public ServerListener(View view, Socket socket) throws IOException {
         this.view = view;;
@@ -24,9 +25,13 @@ class ServerListener implements Runnable {
 
     public void run() {
         try {
-            String[] message;
+            while (true) {
+                String[] message = (String[]) inputStream.readObject();
 
-            while ((message = (String[])inputStream.readObject()) != null) {
+                if (message.length == 0) {
+                    continue;
+                }
+
                 switch (message[0])
                 {
                     case Protocol.MESSAGE:

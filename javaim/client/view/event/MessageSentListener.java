@@ -1,5 +1,5 @@
 
-package javaim.client.ui;
+package javaim.client.view.event;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

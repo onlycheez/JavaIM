@@ -1,9 +1,9 @@
 
-package javaim.client.ui;
+package javaim.client.view.gui;
 
-import javaim.client.ui.View;
-import javaim.client.ui.ContactsList;
-import javaim.client.ui.MessageSentListener;
+import javaim.client.view.View;
+import javaim.client.view.gui.ContactsList;
+import javaim.client.view.event.MessageSentListener;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

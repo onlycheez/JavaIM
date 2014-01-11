@@ -1,14 +1,12 @@
 
 package javaim.client;
 
-import javaim.client.ui.View;
-import javaim.client.lib.Client;
+import javaim.client.view.View;
+import javaim.client.lib.Controller;
 
 import java.io.*;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import javax.swing.SwingUtilities;
-
 
 public class JavaIM {
 
@@ -24,14 +22,14 @@ public class JavaIM {
 
         SwingUtilities.invokeLater(new Runnable() {
             private View view;
-            Client client;
+            Controller controller;
 
             @Override
             public void run() {
                 view = new View();
                 try {
-                    client = new Client(view, username, password);
-                    client.run();
+                    controller = new Controller(view, username, password);
+                    controller.run();
                 } catch (UnknownHostException ex) {
                     System.out.println("Unknown host");
                 } catch (IOException ex) {

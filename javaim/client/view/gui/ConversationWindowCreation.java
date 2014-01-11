@@ -1,7 +1,7 @@
 
-package javaim.client.ui;
+package javaim.client.view.gui;
 
-import javaim.client.ui.ConversationWindow;
+import javaim.client.view.gui.ConversationWindow;
 
 interface ConversationWindowCreation {
     public void onCreate(ConversationWindow conversationWindow);

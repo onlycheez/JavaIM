@@ -1,5 +1,5 @@
 
-package javaim.client.lib;
+package javaim.client.controller.lib;
 
 public class Protocol {
     public static final String LOGIN = "login";
