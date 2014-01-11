@@ -64,12 +64,12 @@ public class Client {
     }
 
     private void askForContactsList() throws IOException {
-        outputStream.writeObject(new String[] { "contactsList" });
+        outputStream.writeObject(new String[] { Protocol.CONTACTS_LIST });
     }
 
     private boolean login() throws IOException {
         String[] message = new String[3];
-        message[0] = "login";
+        message[0] = Protocol.LOGIN;
         message[1] = username;
         message[2] = password;
 
@@ -80,7 +80,7 @@ public class Client {
     public synchronized void sendMessage(String to, String content)
             throws IOException {
         String[] message = new String[4];
-        message[0] = "message";
+        message[0] = Protocol.MESSAGE;
         message[1] = username;
         message[2] = to;
         message[3] = content;

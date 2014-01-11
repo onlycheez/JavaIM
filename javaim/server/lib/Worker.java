@@ -1,6 +1,8 @@
 
 package javaim.server.lib;
 
+import javaim.server.lib.Protocol;
+
 import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ class Worker implements Runnable {
 
     public void sendMessage(String from, String to, String content) {
         final String[] message = new String[4];
-        message[0] = "message";
+        message[0] = Protocol.MESSAGE;
         message[1] = from;
         message[2] = to;
         message[3] = content;
@@ -74,7 +76,7 @@ class Worker implements Runnable {
 
     public void sendContactsList(String[] contacts) {
         String[] message = new String[contacts.length + 1];
-        message[0] = "contactsList";
+        message[0] = Protocol.CONTACTS_LIST;
         for (int i = 0; i < contacts.length; i++) {
             message[i + 1] = contacts[i];
         }
@@ -98,14 +100,14 @@ class Worker implements Runnable {
             System.out.println();
 
             switch (message[0]) {
-                case "login":
+                case Protocol.LOGIN:
                     login(message[1], message[2]);
                     server.broadcastLoggedUsersUpdate();
                     break;
-                case "contactsList":
+                case Protocol.CONTACTS_LIST:
                     sendContactsList(server.getLoggedContacts());
                     break;
-                case "message":
+                case Protocol.MESSAGE:
                     server.passMessage(message[1], message[2], message[3]);
                     break;
                 default:

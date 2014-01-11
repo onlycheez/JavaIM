@@ -1,6 +1,7 @@
 
 package javaim.client.lib;
 
+import javaim.client.lib.Protocol;
 import javaim.client.ui.View;
 import javaim.client.ui.ContactsListWindow;
 
@@ -28,10 +29,10 @@ class ServerListener implements Runnable {
             while ((message = (String[])inputStream.readObject()) != null) {
                 switch (message[0])
                 {
-                    case "message":
+                    case Protocol.MESSAGE:
                         view.showMessage(message[1], message[3]);
                         break;
-                    case "contactsList":
+                    case Protocol.CONTACTS_LIST:
                         view.updateContactsList(message);
                         break;
                     default:
