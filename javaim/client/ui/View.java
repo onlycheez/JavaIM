@@ -3,6 +3,7 @@ package javaim.client.ui;
 
 import javaim.client.ui.ContactsListWindow;
 import javaim.client.ui.ConversationWindow;
+import javaim.client.ui.MessageSentListener;
 
 import java.util.HashMap;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class View {
         conversationWindow.showMessage(message);
     }
 
-    public void setMessageSentListener(ActionListener listener) {
+    public void setMessageSentListener(MessageSentListener listener) {
         contactsListWindow.setMessageSentListener(listener);
     }
 

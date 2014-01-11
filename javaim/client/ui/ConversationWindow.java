@@ -1,8 +1,9 @@
 
 package javaim.client.ui;
 
-import javaim.client.ui.ConversationPane;
 import javaim.client.ui.View;
+import javaim.client.ui.ConversationPane;
+import javaim.client.ui.MessageSentListener;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -51,7 +52,7 @@ public class ConversationWindow extends JFrame {
         contentPane.showMessage(message);
     }
 
-    public void setMessageSentListener(ActionListener listener) {
+    public void setMessageSentListener(MessageSentListener listener) {
         contentPane.setMessageSentListener(listener);
     }
 }

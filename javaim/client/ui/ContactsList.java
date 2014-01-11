@@ -2,6 +2,7 @@
 package javaim.client.ui;
 
 import javaim.client.ui.View;
+import javaim.client.ui.MessageSentListener;
 
 import java.io.*;
 import java.awt.event.MouseAdapter;
@@ -12,7 +13,7 @@ import javax.swing.SwingUtilities;
 
 public class ContactsList extends JList<String> {
 
-    private ActionListener messageSentListener;
+    private MessageSentListener messageSentListener;
     private View view;
 
     public ContactsList(final View view) {
@@ -63,7 +64,7 @@ public class ContactsList extends JList<String> {
         });
     }
 
-    public void setMessageSentListener(ActionListener listener) {
+    public void setMessageSentListener(MessageSentListener listener) {
         messageSentListener = listener;
     }
 }

@@ -2,6 +2,7 @@
 package javaim.client.ui;
 
 import javaim.client.ui.View;
+import javaim.client.ui.MessageSentListener;
 
 import java.io.*;
 import java.awt.BorderLayout;
@@ -48,7 +49,8 @@ public class ConversationPane extends JPanel {
         textArea.append(contact + ": " + message + "\n");
     }
 
-    public void setMessageSentListener(ActionListener listener) {
+    public void setMessageSentListener(MessageSentListener listener) {
+        listener.setContact(contact);
         textField.addActionListener(listener);
     }
 }

@@ -1,6 +1,8 @@
 
 package javaim.client.ui;
 
+import javaim.client.ui.MessageSentListener;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -35,7 +37,7 @@ public class ContactsListWindow extends JFrame {
         contentPane.openConversationWindow(contact);
     }
 
-    public void setMessageSentListener(ActionListener listener) {
+    public void setMessageSentListener(MessageSentListener listener) {
         contentPane.setMessageSentListener(listener);
     }
 }

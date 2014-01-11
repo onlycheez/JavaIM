@@ -2,6 +2,8 @@
 package javaim.client.lib;
 
 import javaim.client.ui.View;
+import javaim.client.ui.ConversationPane;
+import javaim.client.ui.MessageSentListener;
 import javaim.client.lib.UserListener;
 
 import java.io.*;
@@ -32,11 +34,10 @@ public class Client {
         userListener = new Thread(new UserListener(this, socket));
         serverListener = new Thread(new ServerListener(this.view, socket));
 
-        this.view.setMessageSentListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+        this.view.setMessageSentListener(new MessageSentListener() {
+            public void messageSent(String to, String message) {
                 try {
-                    sendMessage(event.getActionCommand().split("@", 2)[0],
-                            event.getActionCommand().split("@", 2)[1]);
+                    sendMessage(to, message);
                 } catch (IOException ex) {
                     // Exception
                     System.out.println("IO Error");
