@@ -4,6 +4,7 @@ package javaim.client.view.gui.login;
 import javaim.client.view.event.LoginDialogListener;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.BorderLayout;
@@ -23,8 +24,10 @@ import java.awt.event.ActionListener;
  */
 public class LoginDialog extends JDialog {
 
+    private static final Dimension PANEL_DIMENSION = new Dimension(330, 60);
     private JLabel lbUsername;
     private JLabel lbPassword;
+    private JLabel lbErrorEmptyField;
     private JTextField tfUsername;
     private JPasswordField pfPassword;
     private JButton btnCancel;
@@ -62,6 +65,13 @@ public class LoginDialog extends JDialog {
         cs.gridwidth = 2;
         panel.add(pfPassword, cs);
 
+        lbErrorEmptyField = new JLabel("Username or password is invalid");
+        cs.gridx = 1;
+        cs.gridy = 2;
+        cs.gridwidth = 2;
+        panel.add(lbErrorEmptyField, cs);
+        lbErrorEmptyField.setVisible(false);
+
         btnLogin = new JButton("Login");
         btnCancel = new JButton("Cancel");
         btnCancel.addActionListener(new ActionListener() {
@@ -77,6 +87,9 @@ public class LoginDialog extends JDialog {
         getContentPane().add(panel, BorderLayout.CENTER);
         getContentPane().add(bp, BorderLayout.PAGE_END);
 
+        panel.setPreferredSize(PANEL_DIMENSION);
+        panel.setMinimumSize(PANEL_DIMENSION);
+
         pack();
         setResizable(false);
         setLocationRelativeTo(parent);
@@ -87,11 +100,26 @@ public class LoginDialog extends JDialog {
      * @param listener Object implementing {@link javaim.client.view.event.LoginDialogListener}
      */
     public void setListener(final LoginDialogListener listener) {
+
         btnLogin.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent event) {
+
+                if (tfUsername.getText().isEmpty() ||
+                        !isUsernameValid(tfUsername.getText()) ||
+                        pfPassword.getPassword().length == 0) {
+                    lbErrorEmptyField.setVisible(true);
+                    return;
+                }
+                lbErrorEmptyField.setVisible(false);
+
                 listener.onOk(tfUsername.getText(), pfPassword.getPassword());
                 dispose();
             }
         });
+    }
+
+    private boolean isUsernameValid(String username) {
+        return username.matches("[A-Za-z0-9.]+");
     }
 }
