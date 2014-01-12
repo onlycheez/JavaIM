@@ -9,6 +9,7 @@ import javaim.client.view.event.LoginDialogListener;
 
 import java.util.HashMap;
 import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
 
 public class View {
     private ContactsListWindow contactsListWindow;
@@ -17,19 +18,6 @@ public class View {
     public View() {
         contactsListWindow = new ContactsListWindow(this);
         conversationWindows = new HashMap<>();
-    }
-
-    public void showMessage(String from, String message) {
-        ConversationWindow conversationWindow = conversationWindows.get(from);
-        if (conversationWindow == null) {
-            contactsListWindow.openConversationWindow(from);
-            while ((conversationWindow = conversationWindows.get(from)) == null) {
-                // TODO: This isn't very nice solution.
-                ;
-            }
-        }
-
-        conversationWindow.showMessage(message);
     }
 
     public String[] showLoginDialog() {
@@ -49,8 +37,22 @@ public class View {
         return credentials;
     }
 
-    public void updateContactsList(String[] contacts) {
-        contactsListWindow.updateContactList(contacts);
+    public void showMessage(String from, String message) {
+        ConversationWindow conversationWindow = conversationWindows.get(from);
+        if (conversationWindow == null) {
+            contactsListWindow.openConversationWindow(from);
+            while ((conversationWindow = conversationWindows.get(from)) == null) {
+                // TODO: This isn't very nice solution.
+                ;
+            }
+        }
+
+        conversationWindow.showMessage(message);
+    }
+
+    public void updateContactsList(final String[] contacts) {
+        System.out.println("View.updateContactsList");
+          contactsListWindow.updateContactList(contacts);
     }
 
     public void setMessageSentListener(MessageSentListener listener) {

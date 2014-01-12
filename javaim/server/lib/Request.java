@@ -51,6 +51,14 @@ class Request {
         writeToStreamAsync((Object) message);
     }
 
+    public void login(boolean isLogged) {
+        String[] message = new String[2];
+        message[0] = Protocol.LOGIN;
+        message[1] = Boolean.toString(isLogged);
+
+        writeToStreamAsync((Object) message);
+    }
+
     /**
      * Asynchronously writes object to output stream.
      * @param message Serializable object to be written. Should be cast

@@ -1,4 +1,3 @@
-
 package javaim.client.controller.lib;
 
 import javaim.client.controller.lib.Protocol;
@@ -8,21 +7,23 @@ import java.io.*;
 import java.net.Socket;
 
 /**
- * Listens to server and performs actions on client. Takes care of showing
- * received messages and updating contacts list.
- */
+* Listens to server and updates view. Takes care of showing
+* received messages and updating contacts list.
+*/
 public class ServerListener implements Runnable {
 
+    protected class ExceptionNotLogged extends Exception {};
+
     private View view;
-    private Socket socket;
     private ObjectInputStream inputStream;
 
-    public ServerListener(View view, Socket socket) throws IOException {
-        this.view = view;;
-        this.socket = socket;
-        this.inputStream = new ObjectInputStream(socket.getInputStream());
+    public ServerListener(View view, ObjectInputStream inputStream)
+            throws IOException {
+        this.view = view;
+        this.inputStream = inputStream;
     }
 
+    @Override
     public void run() {
         try {
             while (true) {
@@ -45,6 +46,9 @@ public class ServerListener implements Runnable {
                         break;
                     case Protocol.CONTACTS_LIST:
                         view.updateContactsList(message);
+                        break;
+                    case Protocol.LOGIN:
+                        // Won't happen. Already logged.
                         break;
                     default:
                         System.out.println("Unknown message received: " +
