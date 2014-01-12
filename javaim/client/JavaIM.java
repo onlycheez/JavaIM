@@ -2,7 +2,7 @@
 package javaim.client;
 
 import javaim.client.view.View;
-import javaim.client.lib.Controller;
+import javaim.client.controller.Controller;
 
 import java.io.*;
 import java.net.UnknownHostException;

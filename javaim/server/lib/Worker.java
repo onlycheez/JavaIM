@@ -2,6 +2,7 @@
 package javaim.server.lib;
 
 import javaim.server.lib.Protocol;
+import javaim.server.lib.Request;
 
 import java.net.Socket;
 import java.io.*;
@@ -9,18 +10,18 @@ import java.util.ArrayList;
 
 class Worker implements Runnable {
 
-    private Socket socket = null;
-    private Server server = null;
-    private ObjectInputStream inputStream = null;
-    private ObjectOutputStream outputStream = null;
-    private boolean isLogged = false;
-    private String username = null;
+    private Socket socket;
+    private Server server;
+    private Request request;
+    private ObjectInputStream inputStream;
+    private boolean isLogged;
+    private String username;
 
     public Worker(Server server, Socket socket) throws IOException {
         this.server = server;
         this.socket = socket;
+        this.request = new Request(socket);
         inputStream = new ObjectInputStream(socket.getInputStream());
-        outputStream = new ObjectOutputStream(socket.getOutputStream());
     }
 
     public boolean getIsLogged() {
@@ -33,87 +34,57 @@ class Worker implements Runnable {
 
     public void run() {
         try {
-            System.out.println(username + " has logged in.");
-            listenToClient();
+            while (true) {
+                String[] message = (String[]) inputStream.readObject();
+
+                if (message.length == 0) {
+                    continue;
+                }
+
+                switch (message[0]) {
+                    case Protocol.LOGIN:
+                        login(message[1], message[2]);
+                        System.out.println(username + " has logged in.");
+                        server.broadcastLoggedUsersUpdate(username);
+                        break;
+                    case Protocol.CONTACTS_LIST:
+                        System.out.println(username +
+                                " asked for contacts list.");
+                        request.sendContactsList(server.getLoggedContacts());
+                        break;
+                    case Protocol.MESSAGE:
+                        server.passMessage(message[1], message[2], message[3]);
+                        System.out.println(username + " sends message to " +
+                                message[2]);
+                        break;
+                    default:
+                        System.out.println(username +
+                                " called invalid method \"" +
+                                message[0] + "\".");
+                }
+            }
         } catch (ClassNotFoundException ex) {
             System.out.println("Class not found.");
         } catch (EOFException ex) {
             System.out.println(username + " has disconnected.");
             server.clientDisconnected(username);
-            server.broadcastLoggedUsersUpdate();
+            server.broadcastLoggedUsersUpdate(username);
         } catch (IOException ex) {
             System.out.println("IOException");
         }
+    }
 
-        System.out.println(Thread.currentThread().getName() +
-                ": Worker started");
+    public void sendContactsList(String[] contacts) {
+        request.sendContactsList(contacts);
     }
 
     public void sendMessage(String from, String to, String content) {
-        final String[] message = new String[4];
-        message[0] = Protocol.MESSAGE;
-        message[1] = from;
-        message[2] = to;
-        message[3] = content;
-
-        new Thread(new Runnable() {
-          public void run(){
-              try {
-                  outputStream.writeObject((Object)message);
-                } catch (IOException ex) {
-                    ;
-                }
-            }
-        }).start();
+        request.sendMessage(from, to, content);
     }
 
     private void login(String contact, String password)
             throws ClassNotFoundException, EOFException, IOException {
-        System.out.println(contact + " has logged in.");
         username = contact;
         isLogged = true;
-    }
-
-    public void sendContactsList(String[] contacts) {
-        String[] message = new String[contacts.length + 1];
-        message[0] = Protocol.CONTACTS_LIST;
-        for (int i = 0; i < contacts.length; i++) {
-            message[i + 1] = contacts[i];
-        }
-
-        try {
-              outputStream.writeObject((Object)message);
-            } catch (IOException ex) {
-                ;
-            }
-    }
-
-    private void listenToClient()
-            throws ClassNotFoundException, EOFException, IOException {
-        String[] message;
-
-        while ((message = (String[])inputStream.readObject()) != null) {
-            System.out.print("Received: ");
-            for (String argument : message) {
-                System.out.print(argument + ", ");
-            }
-            System.out.println();
-
-            switch (message[0]) {
-                case Protocol.LOGIN:
-                    login(message[1], message[2]);
-                    server.broadcastLoggedUsersUpdate();
-                    break;
-                case Protocol.CONTACTS_LIST:
-                    sendContactsList(server.getLoggedContacts());
-                    break;
-                case Protocol.MESSAGE:
-                    server.passMessage(message[1], message[2], message[3]);
-                    break;
-                default:
-                    System.out.println("Invalid method called \"" +
-                            message[0] + "\".");
-            }
-        }
     }
 }

@@ -28,7 +28,7 @@ public class Server {
      * Opens TCP socket and waits for client connections.
      */
     public void run() throws IOException {
-        System.out.println("Server is running");
+        System.out.println("Server started.");
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
@@ -64,12 +64,15 @@ public class Server {
 
     /**
      * Sends actual list of logged users to all connected clients.
+     * @param exception User who is not sent contacts list. It's user who has
+     * just logged in or out (and why this update occurs).
      */
-    synchronized public void broadcastLoggedUsersUpdate() {
+    synchronized public void broadcastLoggedUsersUpdate(String exception) {
         String[] contacts = getLoggedContacts();
 
         for (Worker worker : workers) {
-            if (worker.getIsLogged()) {
+            if (worker.getIsLogged() &&
+                    !worker.getUsername().equals(exception)) {
                 worker.sendContactsList(contacts);
             }
         }

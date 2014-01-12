@@ -1,5 +1,5 @@
 
-package javaim.client.lib;
+package javaim.client.controller;
 
 import javaim.client.controller.lib.Request;
 import javaim.client.controller.lib.ServerListener;

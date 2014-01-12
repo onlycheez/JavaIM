@@ -32,6 +32,12 @@ public class ServerListener implements Runnable {
                     continue;
                 }
 
+                System.out.print("Received: ");
+                for (int i = 0; i < message.length; i++) {
+                    System.out.print(message[i] + ", ");
+                }
+                System.out.println();
+
                 switch (message[0])
                 {
                     case Protocol.MESSAGE:
