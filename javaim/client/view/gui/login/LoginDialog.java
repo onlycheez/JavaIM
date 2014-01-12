@@ -73,10 +73,11 @@ public class LoginDialog extends JDialog {
         lbErrorEmptyField.setVisible(false);
 
         btnLogin = new JButton("Login");
-        btnCancel = new JButton("Cancel");
+        btnCancel = new JButton("Quit");
         btnCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent event) {
                 dispose();
+                System.exit(0);
             }
         });
 
