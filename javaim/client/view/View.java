@@ -1,9 +1,11 @@
 
 package javaim.client.view;
 
+import javaim.client.view.gui.login.LoginDialog;
 import javaim.client.view.gui.contacts.ContactsListWindow;
 import javaim.client.view.gui.conversation.ConversationWindow;
 import javaim.client.view.event.MessageSentListener;
+import javaim.client.view.event.LoginDialogListener;
 
 import java.util.HashMap;
 import java.awt.event.ActionListener;
@@ -28,6 +30,23 @@ public class View {
         }
 
         conversationWindow.showMessage(message);
+    }
+
+    public String[] showLoginDialog() {
+        LoginDialog loginDialog = new LoginDialog(contactsListWindow);
+
+        final String[] credentials = new String[] { null, null };
+
+        loginDialog.setListener(new LoginDialogListener() {
+            public void onOk(String username, char[] password) {
+                credentials[0] = username;
+                credentials[1] = new String(password);
+            }
+        });
+
+        loginDialog.setVisible(true);
+
+        return credentials;
     }
 
     public void updateContactsList(String[] contacts) {

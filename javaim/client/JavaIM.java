@@ -11,15 +11,6 @@ import javax.swing.SwingUtilities;
 public class JavaIM {
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
-            System.out.println ("Invalid number of arguments.");
-            System.out.println ("  Usage: client <username> <password>");
-            return;
-        }
-
-        final String username = args[0];
-        final String password = args[1];
-
         SwingUtilities.invokeLater(new Runnable() {
             private View view;
             Controller controller;
@@ -28,7 +19,7 @@ public class JavaIM {
             public void run() {
                 view = new View();
                 try {
-                    controller = new Controller(view, username, password);
+                    controller = new Controller(view);
                     controller.run();
                 } catch (UnknownHostException ex) {
                     System.out.println("Unknown host");
