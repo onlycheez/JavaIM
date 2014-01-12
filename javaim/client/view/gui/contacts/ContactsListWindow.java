@@ -1,5 +1,5 @@
 
-package javaim.client.view.gui;
+package javaim.client.view.gui.contacts;
 
 import javaim.client.view.View;
 import javaim.client.view.event.MessageSentListener;
@@ -18,7 +18,7 @@ public class ContactsListWindow extends JFrame {
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit()
             .getScreenSize();
 
-    private ContactsListPane contentPane;
+    private MainPane contentPane;
 
     public ContactsListWindow(View view) {
         setTitle(APPLICATION_NAME);
@@ -27,7 +27,7 @@ public class ContactsListWindow extends JFrame {
         setLocation((SCREEN_SIZE.width / 2) - (getWidth() / 2),
                 (SCREEN_SIZE.height / 2) - (getHeight() / 2));
 
-        contentPane = new ContactsListPane(this, view);
+        contentPane = new MainPane(this, view);
         setContentPane(contentPane);
 
         pack();

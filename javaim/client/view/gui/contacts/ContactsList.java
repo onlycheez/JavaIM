@@ -1,8 +1,9 @@
 
-package javaim.client.view.gui;
+package javaim.client.view.gui.contacts;
 
 import javaim.client.view.View;
 import javaim.client.view.event.MessageSentListener;
+import javaim.client.view.gui.conversation.ConversationWindow;
 
 import java.io.*;
 import java.awt.event.MouseAdapter;
@@ -11,7 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
 
-public class ContactsList extends JList<String> {
+class ContactsList extends JList<String> {
 
     private MessageSentListener messageSentListener;
     private View view;

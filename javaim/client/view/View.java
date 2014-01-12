@@ -1,8 +1,8 @@
 
 package javaim.client.view;
 
-import javaim.client.view.gui.ContactsListWindow;
-import javaim.client.view.gui.ConversationWindow;
+import javaim.client.view.gui.contacts.ContactsListWindow;
+import javaim.client.view.gui.conversation.ConversationWindow;
 import javaim.client.view.event.MessageSentListener;
 
 import java.util.HashMap;

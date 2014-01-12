@@ -1,8 +1,8 @@
 
-package javaim.client.view.gui;
+package javaim.client.view.gui.contacts;
 
 import javaim.client.view.View;
-import javaim.client.view.gui.ContactsList;
+import javaim.client.view.gui.contacts.ContactsList;
 import javaim.client.view.event.MessageSentListener;
 
 import java.awt.BorderLayout;
@@ -17,12 +17,12 @@ import javax.swing.JList;
 /**
  * Represents content of contacts list window.
  */
-public class ContactsListPane extends JPanel {
+class MainPane extends JPanel {
 
     ContactsListWindow parentWindow;
     ContactsList contactsList;
 
-    public ContactsListPane(ContactsListWindow parentWindow, View view) {
+    public MainPane(ContactsListWindow parentWindow, View view) {
         this.parentWindow = parentWindow;
 
         setLayout(new BorderLayout());

@@ -1,8 +1,8 @@
 
-package javaim.client.view.gui;
+package javaim.client.view.gui.conversation;
 
 import javaim.client.view.View;
-import javaim.client.view.gui.ConversationPane;
+import javaim.client.view.gui.conversation.MainPane;
 import javaim.client.view.event.MessageSentListener;
 
 import java.awt.Dimension;
@@ -18,7 +18,7 @@ public class ConversationWindow extends JFrame {
     private static final Dimension DEFAULT_DIMENSION = new Dimension(400, 200);
     private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit()
             .getScreenSize();
-    private ConversationPane contentPane;
+    private MainPane contentPane;
     private View view;
     private String contact;
 
@@ -31,7 +31,7 @@ public class ConversationWindow extends JFrame {
         setLocation((SCREEN_SIZE.width / 2) - (getWidth() / 2),
                 (SCREEN_SIZE.height / 2) - (getHeight() / 2));
 
-        contentPane = new ConversationPane(this, this.contact);
+        contentPane = new MainPane(this, this.contact);
         setContentPane(contentPane);
 
         addWindowListener(new WindowAdapter() {

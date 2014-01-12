@@ -7,7 +7,7 @@ import java.net.Socket;
 /**
  * Is used for communication with client over the network.
  */
-public class Request {
+class Request {
 
     private ObjectOutputStream outputStream;
 

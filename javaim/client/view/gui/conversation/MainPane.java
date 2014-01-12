@@ -1,5 +1,5 @@
 
-package javaim.client.view.gui;
+package javaim.client.view.gui.conversation;
 
 import javaim.client.view.View;
 import javaim.client.view.event.MessageSentListener;
@@ -14,13 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class ConversationPane extends JPanel {
+class MainPane extends JPanel {
 
     private JTextArea textArea;
     private JTextField textField;
     private String contact;
 
-    public ConversationPane(ConversationWindow parent, final String contact) {
+    public MainPane(ConversationWindow parent, final String contact) {
         this.contact = contact;
         setLayout(new BorderLayout());
 
