@@ -47,11 +47,11 @@ class Worker implements Runnable {
 
                 switch (message[0]) {
                     case Protocol.LOGIN:
-                        isLogged = login(message[1], message[2]);
+                        username = message[1].toLowerCase();
+                        isLogged = login(username, message[2]);
                         request.login(isLogged);
 
                         if (isLogged) {
-                            username = message[1];
                             System.out.println(username + " has logged in.");
                             server.broadcastLoggedUsersUpdate(username);
                         } else {
@@ -64,7 +64,8 @@ class Worker implements Runnable {
                         request.sendContactsList(server.getLoggedContacts());
                         break;
                     case Protocol.MESSAGE:
-                        server.passMessage(message[1], message[2], message[3]);
+                        server.passMessage(username, message[2].toLowerCase(),
+                                message[3]);
                         System.out.println(username + " sends message to " +
                                 message[2]);
                         break;

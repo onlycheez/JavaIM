@@ -88,7 +88,7 @@ public class Controller {
                         if (isLogged) {
                         } else {
                             String[] credentials = view.showLoginDialog();
-                            username = credentials[0];
+                            username = credentials[0].toLowerCase();
                             request.login(username, credentials[1]);
                         }
                         break;
