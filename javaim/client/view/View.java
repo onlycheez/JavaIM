@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 public class View {
     private ContactsListWindow contactsListWindow;
     private HashMap<String, ConversationWindow> conversationWindows;
+    private String username;
 
     public View() {
         contactsListWindow = new ContactsListWindow(this);
@@ -50,13 +51,36 @@ public class View {
         conversationWindow.showMessage(message);
     }
 
-    public void updateContactsList(final String[] contacts) {
-        System.out.println("View.updateContactsList");
-          contactsListWindow.updateContactList(contacts);
+    public void updateContactsList(String[] contacts) {
+        if (contacts.length <= 1) {
+            return;
+        }
+
+        System.out.print("Prdel: ");
+
+        String[] contactsWithoutMe = new String[contacts.length - 1];
+
+        int i = 0;
+        for (String contact : contacts) {
+            System.out.print(contact);
+            if (!contact.equals(username)) {
+                System.out.print(" (adding)");
+                contactsWithoutMe[i] = contact;
+                i += 1;
+            }
+            System.out.print(", ");
+        }
+        System.out.println();
+
+        contactsListWindow.updateContactList(contactsWithoutMe);
     }
 
     public void setMessageSentListener(MessageSentListener listener) {
         contactsListWindow.setMessageSentListener(listener);
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void onConversationWindowCreate(String contact,

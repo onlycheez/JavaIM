@@ -39,6 +39,7 @@ public class Controller {
     public void run() {
         final String username = login();
 
+        view.setUsername(username);
         view.setMessageSentListener(new MessageSentListener() {
             public void messageSent(String to, String message) {
                 try {

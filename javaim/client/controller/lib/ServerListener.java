@@ -4,6 +4,7 @@ import javaim.client.controller.lib.Protocol;
 import javaim.client.view.View;
 
 import java.io.*;
+import java.util.Arrays;
 import java.net.Socket;
 
 /**
@@ -45,7 +46,8 @@ public class ServerListener implements Runnable {
                         view.showMessage(message[1], message[3]);
                         break;
                     case Protocol.CONTACTS_LIST:
-                        view.updateContactsList(message);
+                        view.updateContactsList(Arrays.copyOfRange(message, 1,
+                                message.length));
                         break;
                     case Protocol.LOGIN:
                         // Won't happen. Already logged.
