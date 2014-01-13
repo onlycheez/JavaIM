@@ -31,6 +31,11 @@ class ContactsList extends JList<String> {
                     return;
                 }
 
+                if (contacts.length == 0) {
+                    return;
+                }
+
+
                 final String contact = contacts[list.getSelectedIndex()];
 
                 SwingUtilities.invokeLater(new Runnable() {
