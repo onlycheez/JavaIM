@@ -13,13 +13,12 @@ import java.io.*;
  */
 public class Server {
 
-    private final static int PORT = 4444;
     private ServerSocket serverSocket = null;
     private ArrayList<Thread> clients = null;
     private ArrayList<Worker> workers = null;
 
-    public Server() throws IOException {
-        serverSocket = new ServerSocket(PORT);
+    public Server(int port) throws IOException {
+        serverSocket = new ServerSocket(port);
         clients = new ArrayList<>();
         workers = new ArrayList<>();
     }

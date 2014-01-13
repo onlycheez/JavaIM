@@ -24,10 +24,10 @@ public class Controller {
     private ObjectInputStream inputStream;
     private ServerListener serverListener;
 
-    public Controller(View view)
+    public Controller(View view, String host, int port)
             throws UnknownHostException, IOException {
         this.view = view;
-        this.socket = new Socket("localhost", 4444);
+        this.socket = new Socket(host, port);
         this.request = new Request(socket);
         this.inputStream = new ObjectInputStream(socket.getInputStream());
         this.serverListener = new ServerListener(view, inputStream);
